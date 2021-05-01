@@ -72,6 +72,8 @@
                 <!-- labelContainer.childNodes[i].innerHTML = classPrediction; -->
                 document.getElementById("p1").innerHTML = document.getElementById("p1").innerHTML + "&nbsp;";
                 document.getElementById("p1").innerHTML = document.getElementById("p1").innerHTML + classPrediction;
+                document.getElementById("pg"+i).innerHTML = result.scores[i].toFixed(2) +'%';
+                document.getElementById("pg"+i).style.width = result.scores[i].toFixed(2) +'%';
 
             }
 
