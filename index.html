@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="assets/css/Team-Clean.css">
     <link rel="stylesheet" href="assets/css/The-Matrix-Display.css">
     <link rel="stylesheet" href="assets/css/Youtube-Video-Lazyload.css">
+    <link rel="stylesheet" href="assets/css/Beautiful-Warning-Note-Callout.css">
 </head>
 <!-- <div>Teachable Machine Audio Model</div>
 <button type="button" onclick="init()">Start</button> -->
@@ -114,16 +115,37 @@
                 <h2 class="text-center" style="font-family: Muli;color: var(--yellow);border-radius: 12px;border-style: solid;border-color: var(--danger);">S.A.V.I.T<br></h2>
 
 
-                <div  id="warning1" class="beautiful bs-callout bs-callout-warning">
-                    <h4>Warning</h4>
-                    <p> 
-                        Instructions !
-                        This is 
+                <div  id="warning1" class="beautiful bs-callout bs-callout-warning" style =" display:none;">
+                    <h4>Instructions</h4>
+                    <p>         ---> First click on start demo button.
+                                Wait for few minutes as AI model would be loading ( around 6mb )&nbsp;
+                                <br/>
+                                ---> loading is complete give microphone permission to the website
+                                &nbsp; <br/>
+                                --->For now the Model has been trained to  between two words ( Attendance and TimeTable ) speak either of two and the model will detect it 
+                                <br/> &emsp;&emsp; and show in the progress Graph.
+                                    &nbsp; <br/>
+                                --> (Due to different accents and light nature of model there is a scope of inaccuracy which could be removed by custom training it for the user's voice.)
+                            <br>
+
                     </p>
                 </div>
 
+            <script>
+                function showhide() {
+                    var x = document.getElementById("warning1");
+                    if (x.style.display === "none") {
+                      x.style.display = "block";
+                    } else {
+                      x.style.display = "none";
+                    }
+                  }
+                </script>
 
                 <h2 class="text-left d-xl-flex justify-content-xl-center" style="font-family: 'Aguafina Script', cursive;font-size: 37px;color: rgb(112,229,255);height: auto;background: rgba(5,5,5,0.28);width: auto;padding-top: 7px;border-radius: 12px;border-style: none;padding-right: 4px;padding-bottom: 2px;padding-left: 9px;">Reforming voice assistance devices&nbsp;</h2><a class="btn btn-outline-warning btn-xl js-scroll-trigger" role="button" onclick=" mess(); init();"  >start demo!</a> 
+               
+                <a class="btn btn-outline-warning btn-xl js-scroll-trigger" role="button" onclick="showhide();" style="padding-left: 33px;margin-left: 32px; ">Instructions</a>
+
                 <!-- href="#contact" -->
                 <div class="row" style="margin-top: 35px;padding-top: 10px;background: rgba(0,0,0,0.55);height: 90.6px;">
                     <div class="col-md-4">
@@ -162,7 +184,7 @@
                 </div>
             </div>
         </div>
-        <h2 class="section-heading" style="font-size: 25px;padding-top: 31px;">Demo with IFTT and Google assistance for getting attendence</h2>
+        <h2 class="section-heading" style="font-size: 25px;padding-top: 31px;">Demo with IFTT and Google assistance for getting attendance</h2>
         <div class="container">
             <div class="col">
                 <h6 class="text-center"></h6><div class="youtube-container">
@@ -243,7 +265,8 @@
                     <h3 class="name" style="padding-top: 8px;">Bishwajit Roy<br></h3>
                     <p class="title">Reviewer</p>
                     <p class="description" style="text-align: left;font-size: 12px;">Dr. Biswajit Roy is presently working as&nbsp; Assistant Professor at VIT Bhopal University.He has done his doctoral research from National Institute of&nbsp; Technology, Patna He has more than 7 years of teaching experience in reputed engineering institutions and has published several research papers in reputed journals.&nbsp; His area of research includes&nbsp; Machine learning Meta-heuristic algorithm Hydrological modeling<br><br></p>
-                    <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+
+
                     <div class="w-100"></div>
                 </div>
             </div>
