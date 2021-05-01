@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>SAVIT - Smart IOT Based Voice Assistant </title>
+    <meta name="description" content="SAVIT - is a project aimed to develop opensource  &quot;Smart IOT Based Voice Assistant&quot; to help students teachers living a better lifestyle">
+    <link rel="icon" type="image/gif" sizes="256x256" href="assets/img/loading.gif">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aguafina+Script">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Blinker">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="assets/css/Bootstrap-4---Team-Members.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/Loading-Div.css">
+    <link rel="stylesheet" href="assets/css/progress-bars.css">
+    <link rel="stylesheet" href="assets/css/Team-Clean.css">
+    <link rel="stylesheet" href="assets/css/The-Matrix-Display.css">
+    <link rel="stylesheet" href="assets/css/Youtube-Video-Lazyload.css">
+</head>
+<div>Teachable Machine Audio Model</div>
+<button type="button" onclick="init()">Start</button>
+<div id="label-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
+
+<script type="text/javascript">
+    // more documentation available at
+    // https://github.com/tensorflow/tfjs-models/tree/master/speech-commands
+
+    // the link to your model provided by Teachable Machine export panel
+    const URL = "https://teachablemachine.withgoogle.com/models/g8C6cYQsI/";
+
+    async function createModel() {
+        const checkpointURL = URL + "model.json"; // model topology
+        const metadataURL = URL + "metadata.json"; // model metadata
+
+        const recognizer = speechCommands.create(
+            "BROWSER_FFT", // fourier transform type, not useful to change
+            undefined, // speech commands vocabulary feature, not useful for your models
+            checkpointURL,
+            metadataURL);
+
+        // check that model and metadata are loaded via HTTPS requests.
+        await recognizer.ensureModelLoaded();
+
+        return recognizer;
+    }
+
+    async function init() {
+        const recognizer = await createModel();
+        const classLabels = recognizer.wordLabels(); // get class labels
+        const labelContainer = document.getElementById("label-container");
+        for (let i = 0; i < classLabels.length; i++) {
+            labelContainer.appendChild(document.createElement("div"));
+        }
+
+        // listen() takes two arguments:
+        // 1. A callback function that is invoked anytime a word is recognized.
+        // 2. A configuration object with adjustable fields
+        recognizer.listen(result => {
+            const scores = result.scores; // probability of prediction for each class
+            // render the probability scores per class
+            document.getElementById("p1").innerHTML="";
+            for (let i = 0; i < classLabels.length; i++) {
+                const classPrediction = classLabels[i] + ": " + result.scores[i].toFixed(2);
+                labelContainer.childNodes[i].innerHTML = classPrediction;
+                document.getElementById("p1").innerHTML = document.getElementById("p1").innerHTML + "&nbsp;";
+                document.getElementById("p1").innerHTML = document.getElementById("p1").innerHTML + classPrediction;
+
+            }
+
+        }, {
+            includeSpectrogram: true, // in case listen should return result.spectrogram
+            probabilityThreshold: 0.75,
+            invokeCallbackOnNoiseAndUnknown: true,
+            overlapFactor: 0.50 // probably want between 0.5 and 0.75. More info in README
+        });
+
+        // Stop the recognition in 5 seconds.
+        // setTimeout(() => recognizer.stopListening(), 5000);
+    }
+</script>
+
+<body id="page-top">
+    <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
+        <div class="container"><a class="navbar-brand js-scroll-trigger" href="#page-top" style="font-family: 'Aguafina Script', cursive;color: var(--red);">SAVIT-IOT</a><button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler float-right" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#download">technical</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Mentors</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section class="cta" style="border-style: none;background: url(&quot;assets/img/bg-cta.jpg&quot;) center / cover no-repeat;padding-top: 150px;">
+        <div class="cta-content" style="padding-bottom: 24px;">
+            <div class="container">
+                <h2 class="text-center" style="font-family: Muli;color: var(--yellow);border-radius: 12px;border-style: solid;border-color: var(--danger);">S.A.V.I.T<br></h2>
+                <h2 class="text-left d-xl-flex justify-content-xl-center" style="font-family: 'Aguafina Script', cursive;font-size: 37px;color: rgb(112,229,255);height: auto;background: rgba(5,5,5,0.28);width: auto;padding-top: 7px;border-radius: 12px;border-style: none;padding-right: 4px;padding-bottom: 2px;padding-left: 9px;">Reforming voice assistance devices&nbsp;</h2><a class="btn btn-outline-warning btn-xl js-scroll-trigger" role="button" onclick="init()"  >start demo!</a> 
+                <!-- href="#contact" -->
+                <div class="row" style="margin-top: 35px;padding-top: 10px;background: rgba(0,0,0,0.55);height: 90.6px;">
+                    <div class="col-md-4">
+                        <h5 style="color: rgb(255,255,255);">Background Noise</h5>
+                        <div class="progress beautiful progress-lg">
+                            <div class="progress-bar bg-danger" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">100%</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 style="color: rgb(255,255,255);">Attendence</h5>
+                        <div class="progress beautiful progress-lg">
+                            <div class="progress-bar bg-danger"  aria-valuemin="0" aria-valuemax="100" style="width: 10%;">10%</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 style="border-color: rgb(33, 37, 41);border-top-color: rgb(33,;border-right-color: 37,;border-bottom-color: 41);border-left-color: 37,;color: rgb(255,255,255);">TimeTable</h5>
+                        <div class="progress beautiful progress-lg">
+                            <div class="progress-bar bg-danger" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">10%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="width: auto;margin-top: 0px;padding-top: 8px;background: #000000;border-style: none;border-color: var(--blue);border-radius: 0px;">
+            <p class="bounce animated"  id= "p1" style="padding-top: 0px;color: rgb(16,130,35);width: auto;font-family: Blinker, sans-serif;border-radius: 0px;border-style: none;font-size: 16px;height: 58.6px;">Testing and debugging information -- Due to the size of the Voice recognition model it is advisable to wait for few minutes before starting.........</p>
+        </div>
+        <div class="overlay" style="width: auto;"></div>
+    </section>
+    <section class="text-center bg-primary download" id="download">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <h2 class="section-heading" style="font-size: 49px;">Model Accuracy &amp; Working Principle&nbsp;</h2>
+                    <p>This project uses tensorflow.js and have a theoretical accuracy of over 97+%&nbsp;</p>
+                    <div class="badges"><a class="badge-link" href="#"><img src="assets/img/data%20model%201.jpg" style="height: 289px;width: auto;"></a><a class="badge-link" href="#"><img src="assets/img/data%20model%202.jpg" style="width: auto;height: 289px;border-style: none;padding-right: 0px;padding-left: 10px;"></a></div>
+                </div>
+            </div>
+        </div>
+        <h2 class="section-heading" style="font-size: 25px;padding-top: 31px;">Demo with IFTT and Google assistance for getting attendence</h2>
+        <div class="container">
+            <div class="col">
+                <h6 class="text-center"></h6><div class="youtube-container">
+   <div class="youtube-player" data-id="AX1VUF-riNo"></div>
+</div>
+            </div>
+        </div>
+    </section>
+    <section id="features" class="features">
+        <div class="container">
+            <div class="text-center section-heading">
+                <h2 style="font-size: 46px;">Opensource Voice Assistant For All&nbsp;</h2>
+                <p class="text-muted"><br>&nbsp;We aim to create a&nbsp; tool that makes it easier for anyone – teachers, students, artists, makers of all kinds – to train machine learning voice models and create smart IOT devices.<br><br></p>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 my-auto">
+                    <div class="device-container">
+                        <div class="device-mockup iphone6_plus portrait white">
+                            <div class="device" style="background-image:url('assets/img/iphone_6_plus_white_port.png');">
+                                <div class="screen"><img class="img-fluid" src="assets/img/savit.jpg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 my-auto">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="feature-item"><i class="icon-screen-smartphone text-primary"></i>
+                                    <h3>Multi device support</h3>
+                                    <p class="text-muted">we aim to create light models which could run directly into web browsers, opening scope for device compatibility for n number of devices</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="feature-item"><i class="icon-camera text-primary"></i>
+                                    <h3>Flexible Use and custom</h3>
+                                    <p class="text-muted">Train your Own model with your custom voice</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="feature-item"><i class="icon-present text-primary"></i>
+                                    <h3>Free to Use</h3>
+                                    <p class="text-muted">As always, this project is intended to be free to download and use for any purpose!</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="feature-item"><i class="icon-lock-open text-primary"></i>
+                                    <h3>Open Source</h3>
+                                    <p class="text-muted">Open Source Forever !!!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="team-clean"></section>
+    <section class="bg-primary contact" id="contact" style="height: auto;">
+        <div class="container">
+            <div class="intro"></div>
+        </div>
+        <div class="container">
+            <h2><span>Our&nbsp;</span><span>&nbsp;Mentors&nbsp;&nbsp;<i class="fa fa-group"></i></span></h2>
+            <p class="text-center">This project is possible due to constant support of our beloved teachers who helped us solve various challanges</p>
+        </div>
+        <div class="container">
+            <div class="row d-xl-flex justify-content-xl-center" style="height: auto;">
+                <div class="col-md-6 col-lg-4 item" style="height: 398.5px;width: auto;"><img class="rounded-circle" src="assets/img/Alangudi-Balaji-1.jpg" style="height: 150px;">
+                    <h3 class="name" style="padding-top: 8px;">Alangudi Balaji</h3>
+                    <p class="title">Mentor</p>
+                    <p class="description" style="font-size: 12px;text-align: left;">Dr. N. Alangudi Balaji is presently working as Assistant Professor Senior Grade at VIT-Bhopal University.&nbsp; He has pursued his&nbsp; M.Tech., (CSE) from VIT University, Vellore, and Ph.D. (CSE) from Anna University,&nbsp; He has more than 17 years of teaching experience and has published several research papers in reputed journals.&nbsp; His area of research includes Network Security, Vehicular Ad Hoc Network Security, and Cryptography.<br><br></p>
+                    <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+                    <div class="w-100"></div>
+                </div>
+                <div class="col-md-6 col-lg-4 item" style="height: 398.5px;width: auto;"><img class="rounded-circle" src="assets/img/biswajit.jpg" style="height: 150px;width: 163.04px;">
+                    <h3 class="name" style="padding-top: 8px;">Bishwajit Roy<br></h3>
+                    <p class="title">Reviewer</p>
+                    <p class="description" style="text-align: left;font-size: 12px;">Dr. Biswajit Roy is presently working as&nbsp; Assistant Professor at VIT Bhopal University.He has done his doctoral research from National Institute of&nbsp; Technology, Patna He has more than 7 years of teaching experience in reputed engineering institutions and has published several research papers in reputed journals.&nbsp; His area of research includes&nbsp; Machine learning Meta-heuristic algorithm Hydrological modeling<br><br></p>
+                    <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+                    <div class="w-100"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <p>© SAVIT 2021. All Rights Reserved.&nbsp;</p>
+            <p style="padding-top: 5px;">Made with&nbsp; ❤&nbsp; in India by V1n33T</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacy</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">FAQ</a></li>
+            </ul>
+        </div>
+    </footer>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="assets/js/new-age.js"></script>
+    <script src="assets/js/The-Matrix-Display.js"></script>
+    <script src="assets/js/Youtube-Video-Lazyload.js"></script>
+</body>
+
+</html>
